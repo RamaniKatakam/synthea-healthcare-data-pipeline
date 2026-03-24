@@ -80,6 +80,3 @@ CSV Files → Python Ingestion → BigQuery (Raw) → dbt Models (Staging → Ma
 
 ## Author
 Ramani Katakam
-
-Your Name
-
