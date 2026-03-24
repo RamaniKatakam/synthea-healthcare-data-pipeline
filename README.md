@@ -35,15 +35,18 @@ CSV Files → Python Ingestion → BigQuery (Raw) → dbt Models (Staging → Ma
 
 ## Data Model
 
-### Dimension Tables
+### Staging Layer
+
+* stg_patients
+* stg_encounters
+* stg_conditions
+
+### Mart Layer
 
 * dim_patient
 * dim_condition
-
-### Fact Table
-
 * fact_encounters
-
+  
 ---
 
 ## Pipeline Steps
