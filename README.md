@@ -46,7 +46,7 @@ CSV Files → Python Ingestion → BigQuery (Raw) → dbt Models (Staging → Ma
 * dim_patient
 * dim_condition
 * fact_encounters
-  
+Note: For simplicity, I used natural keys (patient_id). In production systems, I would introduce surrogate keys to handle slowly changing dimensions and multi-source data integration.
 ---
 
 ## Pipeline Steps
