@@ -20,6 +20,15 @@ This project models these use cases by transforming raw data into **analytics-re
 
 ---
 
+## 📂 Data
+
+**Dataset:** Synthetic Healthcare Data (Synthea)
+
+- Source: [https://synthetichealth.github.io/synthea/](https://synthetichealth.github.io/synthea/)  
+- Purpose: Simulate realistic healthcare data for analytics while preserving privacy
+
+---
+
 ## 🧰 Tech Stack
 
 * **Cloud Data Warehouse:** BigQuery
