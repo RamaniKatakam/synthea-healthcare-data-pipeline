@@ -34,16 +34,6 @@ This project models these use cases by transforming raw data into **analytics-re
 
 ![Architecture Diagram](docs/architecture.png)
 
-**Flow:**
-
-```
-Raw CSV Data → Python Ingestion → BigQuery (Raw)
-        ↓
-      dbt (Staging → Intermediate → Marts)
-        ↓
-   Analytical Models → Insights / Dashboard
-```
-
 ---
 
 ## 🧱 Data Model (Star Schema)
@@ -58,17 +48,18 @@ Raw CSV Data → Python Ingestion → BigQuery (Raw)
 
   * `dim_patient` → patient demographics + financial summary
   * `dim_condition` → medical conditions
- 
+
+```
                      dim_patient
                       |
                       |
 dim_condition —— fct_encounters
-
+```
 ---
 
 ## 🔄 Data Lineage (dbt DAG)
 
-![Data Model](docs/lineage)
+[Lineage Graphs](https://github.com/RamaniKatakam/synthea-healthcare-data-pipeline/tree/main/docs/lineage)
 
 This project includes dbt lineage graphs to illustrate model dependencies and transformation flow.
 
