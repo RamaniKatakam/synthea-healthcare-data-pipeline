@@ -1,0 +1,13 @@
+
+version: 2
+
+sources:
+  - name: raw
+    database: synthea-data-pipeline
+    schema: raw_synthea_data
+
+    tables:
+      - name: patients
+      - name: conditions
+      - name: encounters
+
