@@ -68,8 +68,9 @@ dim_condition —— fct_encounters
 
 ## 🔄 Data Lineage (dbt DAG)
 
+![Data Model](docs/lineage)
+
 This project includes dbt lineage graphs to illustrate model dependencies and transformation flow.
-![Data Model](docs/data_model)
 
 ---
 
