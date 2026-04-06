@@ -1,0 +1,2 @@
+select patient as patient_id, id as encounter_id,DATE(START) as treatment_start_date, DATE(stop) as treatment_end_date, encounterclass as encounter_type,code as encounter_code, description as encounter_description,safe_cast(reasoncode as int64) as reason_code, reasondescription as reason_description, safe_cast(total_claim_cost as NUMERIC) as total_claim_cost ,safe_cast(payer_coverage as NUMERIC) as insurance_coverage
+from{{ source('raw','encounters') }}
