@@ -1,88 +1,214 @@
-# Synthea Healthcare Data Pipeline
+# 🏥 Healthcare Data Engineering Pipeline (Synthea + BigQuery + dbt)
 
-## Overview
+## 📌 Project Overview
 
-This project builds an end-to-end data engineering pipeline using synthetic Electronic Health Record (EHR) data. The pipeline ingests raw healthcare data, transforms it into a structured data warehouse model and enables analytical insights on patient encounters and medical conditions.
+This project demonstrates an **end-to-end healthcare data engineering pipeline** built using modern data stack tools. It simulates real-world Electronic Health Records (EHR) processing using synthetic patient data.
 
----
-
-## Tech Stack
-
-* Google BigQuery
-* dbt (data transformations)
-* Python (data ingestion)
-* SQL
-* (Planned) Apache Airflow
-* (Planned) Kafka
+The pipeline ingests raw healthcare data, transforms it into a structured analytical model and enables insights into **patient encounters, treatment costs, and disease trends**.
 
 ---
 
-## Dataset
+## 🎯 Business Objective
 
-Synthetic healthcare dataset generated using Synthea, including:
+Healthcare organizations need reliable pipelines to:
 
-* Patients
-* Encounters (hospital visits)
-* Conditions (diagnoses)
+* Track patient encounters and treatments
+* Analyze healthcare costs and insurance coverage
+* Identify high-risk patients and common conditions
 
----
-
-## Architecture
-
-CSV Files → Python Ingestion → BigQuery (Raw) → dbt Models (Staging → Marts) → Analytics
+This project models these use cases by transforming raw data into **analytics-ready datasets**.
 
 ---
 
-## Data Model
+## 🧰 Tech Stack
 
-### Staging Layer
-
-* stg_patients
-* stg_encounters
-* stg_conditions
-
-### Mart Layer
-
-* dim_patient
-* dim_condition
-* fact_encounters
-
-Note: 
-For simplicity, I used natural keys (patient_id). In production systems, I would introduce surrogate keys to handle slowly changing dimensions and multi-source data integration.
+* **Cloud Data Warehouse:** BigQuery
+* **Transformation Layer:** dbt
+* **Ingestion:** Python
+* **Data Modeling:** Star Schema
+* **Orchestration (future-ready):** Airflow-compatible design
 
 ---
 
-## Pipeline Steps
+## 🏗️ Architecture
 
-1. Load raw CSV into BigQuery
-2. Build staging models in dbt
-3. Transform into star schema
-4. Run analytical queries
+![Architecture Diagram](docs/architecture.png)
 
----
+**Flow:**
 
-## Sample Insights
-
-* Patient visit frequency
-* Most common medical conditions
-* Encounters by age group
-
----
-
-## Future Improvements
-
-* Add Apache Airflow for orchestration
-* Add Kafka for real-time streaming
-* Implement data quality monitoring
-* Add dashboard (Power BI)
+```
+Raw CSV Data → Python Ingestion → BigQuery (Raw)
+        ↓
+      dbt (Staging → Intermediate → Marts)
+        ↓
+   Analytical Models → Insights / Dashboard
+```
 
 ---
 
-## Screenshots
+## 🧱 Data Model (Star Schema)
 
+![Data Model](docs/data_model)
 
+### Core Tables:
+
+* **Fact Table**
+
+  * `fct_encounters` → patient encounters, costs, treatments
+
+* **Dimensions**
+
+  * `dim_patient` → patient demographics + financial summary
+  * `dim_condition` → medical conditions
 
 ---
 
-## Author
-Ramani Katakam
+## 🔄 Data Pipeline Layers
+
+### 🟢 Staging (`stg_*`)
+
+* Cleans and standardizes raw data
+* Minimal transformations
+
+### 🟡 Intermediate (`int_*`)
+
+* Handles data aggregation and deduplication
+* Example: condition enrichment per encounter
+
+### 🔵 Marts (`dim_*`, `fct_*`)
+
+* Business-ready models
+* Star schema implementation
+
+---
+
+## ⚙️ Key Features
+
+* ✅ Built using **modular dbt models (`ref`, `source`)**
+* ✅ Implemented **incremental loading** for fact table
+* ✅ Handled **missing data using enrichment logic (COALESCE)**
+* ✅ Created **healthcare-specific transformations (age using death date)**
+* ✅ Designed **clean star schema for analytics**
+
+---
+
+## 📊 Analytical Models
+
+Located in:
+`dbt/models/marts/analytics/`
+
+### 1️⃣ Patient Summary
+
+* Total visits per patient
+* Total & average healthcare costs
+
+### 2️⃣ Condition Analysis
+
+* Most common conditions
+* Total cost per condition
+
+---
+
+## 🔍 Sample Insights
+
+* 📈 Identify **high-cost patients**
+* 🏥 Analyze **most frequent medical conditions**
+* 💰 Track **total healthcare spending trends**
+
+---
+
+## 🧪 Data Quality
+
+* Implemented **dbt tests**:
+
+  * `not_null`
+  * `unique`
+* Ensured **consistent joins and grain alignment**
+* Validated data using reconciliation logic
+
+---
+
+## 🚀 How to Run the Project
+
+### 1️⃣ Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2️⃣ Authenticate with BigQuery
+
+```bash
+gcloud auth application-default login
+```
+
+### 3️⃣ Load raw data
+
+```bash
+python scripts/upload_to_bigquery.py
+```
+
+### 4️⃣ Run transformations
+
+```bash
+dbt build
+```
+
+---
+
+## 📁 Project Structure
+
+```
+├── data/                     # Raw datasets
+├── scripts/                  # Ingestion scripts
+├── dbt/
+│   ├── models/
+│   │   ├── staging/
+│   │   ├── intermediate/
+│   │   ├── marts/
+│   │   │   ├── core/
+│   │   │   └── analytics/
+├── docs/                     # Architecture & data model diagrams
+├── dashboards/               # visualization screenshots
+└── README.md
+```
+
+---
+
+## 🧠 Key Design Decisions
+
+* Used **Synthea dataset** to simulate real-world healthcare data without privacy constraints
+* Modeled **encounters as fact table** and **patients/conditions as dimensions**
+* Applied **incremental loading only to fact table** (industry best practice)
+* Avoided over-engineering by keeping dimensions simple and reusable
+
+---
+
+## 📈 Future Improvements
+
+* Add Airflow for orchestration
+* Implement Slowly Changing Dimensions (SCD Type 2)
+* Add streaming ingestion (Kafka)
+
+---
+
+## 💬 About This Project
+
+This project was built to demonstrate **production-style data engineering practices**, including:
+
+* Data modeling
+* Incremental pipelines
+* Data quality validation
+* Business-oriented analytics
+
+---
+
+## 👩‍💻 Author
+
+**Ramani Katakam**
+
+---
+
+## ⭐ If you found this useful
+
+Consider giving the repo a star ⭐
