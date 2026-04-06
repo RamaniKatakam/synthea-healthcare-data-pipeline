@@ -1,0 +1,10 @@
+project_id: "synthea-data-pipeline"
+dataset_id: "raw_synthea_data"
+
+files:
+  - source: "patients.csv"
+    table: "patients"
+  - source: "encounters.csv"
+    table: "encounters"
+  - source: "conditions.csv"
+    table: "conditions"
