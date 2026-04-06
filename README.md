@@ -48,8 +48,6 @@ Raw CSV Data → Python Ingestion → BigQuery (Raw)
 
 ## 🧱 Data Model (Star Schema)
 
-![Data Model](docs/data_model)
-
 ### Core Tables:
 
 * **Fact Table**
@@ -60,6 +58,18 @@ Raw CSV Data → Python Ingestion → BigQuery (Raw)
 
   * `dim_patient` → patient demographics + financial summary
   * `dim_condition` → medical conditions
+ 
+                     dim_patient
+                      |
+                      |
+dim_condition —— fct_encounters
+
+---
+
+## 🔄 Data Lineage (dbt DAG)
+
+This project includes dbt lineage graphs to illustrate model dependencies and transformation flow.
+![Data Model](docs/data_model)
 
 ---
 
