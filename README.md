@@ -29,13 +29,62 @@ This project models these use cases by transforming raw data into **analytics-re
 
 ---
 
+## 📌 Architecture Overview
+
+The pipeline follows a modern ELT approach:
+
+- Raw CSV data is ingested into BigQuery
+- dbt is used for transformations (staging → intermediate → marts)
+- Analytics-ready tables are built for reporting
+
+### 🔄 Orchestration Layer (Apache Airflow)
+
+The pipeline is orchestrated using Apache Airflow (running in Docker), which manages task dependencies and execution flow.
+
+- DAG: `healthcare_pipeline`
+- Execution flow:
+```
+Ingest Data → dbt run → dbt test
+```
+- Handles scheduling, retries, and monitoring
+- Ensures transformations run only after successful ingestion
+
+---
+
 ## 🧰 Tech Stack
 
 * **Cloud Data Warehouse:** BigQuery
 * **Transformation Layer:** dbt
 * **Ingestion:** Python
 * **Data Modeling:** Star Schema
-* **Orchestration:** Airflow-compatible design
+* **Orchestration:** Apache Airflow (Dockerized)
+
+---
+
+## 🔄 Airflow Pipeline
+
+The project uses Airflow to automate the end-to-end workflow.
+
+### DAG: `healthcare_pipeline`
+
+#### Tasks:
+
+1. **Ingest Data**
+ - Runs:
+   ```
+   python /opt/project/scripts/upload_to_bigquery.py
+   ```
+ - Loads CSV data into BigQuery
+ - Uses `WRITE_TRUNCATE` for full refresh
+
+2. **Run dbt Models**
+ - Executes:
+   ```
+   dbt run --profiles-dir /opt/project/dbt/profiles
+   ```
+ - Builds staging, intermediate, and mart models
+
+3. **Run dbt Tests**
 
 ---
 
@@ -141,36 +190,24 @@ Located in:
 
 ## 🚀 How to Run the Project
 
-### 1️⃣ Install dependencies
+### Run Airflow (Docker)
 
 ```bash
-pip install -r requirements.txt
-```
+docker-compose up
 
-### 2️⃣ Authenticate with BigQuery
+Airflow UI: http://localhost:8080
+Username: admin
+Password: admin
 
-```bash
-gcloud auth application-default login
-```
-
-### 3️⃣ Load raw data
-
-```bash
-python scripts/upload_to_bigquery.py
-```
-
-### 4️⃣ Run transformations
-
-```bash
-dbt build
-```
+Trigger DAG: healthcare_pipeline
 
 ---
 
 ## 📁 Project Structure
 
 ```
-├── data/                     # Raw datasets
+├── data/                     # Raw datasets (Not published to Git)
+├── dags/                     # Airflow DAGs
 ├── scripts/                  # Ingestion scripts
 ├── dbt/
 │   ├── models/
@@ -197,7 +234,6 @@ dbt build
 
 ## 📈 Future Improvements
 
-* Add Airflow for orchestration
 * Implement Slowly Changing Dimensions (SCD Type 2)
 * Add streaming ingestion (Kafka)
 
@@ -207,10 +243,10 @@ dbt build
 
 This project was built to demonstrate **production-style data engineering practices**, including:
 
-* Data modeling
-* Incremental pipelines
-* Data quality validation
-* Business-oriented analytics
+* Built end-to-end ELT pipeline using dbt and BigQuery
+* Designed star schema (dim + fact tables)
+* Implemented data quality checks using dbt tests
+* Orchestrated pipeline using Apache Airflow running in Docker
 
 ---
 
