@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  airflow:
+    build: .
+    container_name: airflow
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags #mounting the dags folder to the container
+      - ../:/opt/project   #mounting the project folder to the container
+      - ../keys:/opt/keys
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+    command: >
+      bash -c "
+      airflow db init &&
+      airflow db migrate &&
+      airflow users create --username admin --password admin --firstname admin --lastname user --role Admin --email admin@example.com || true &&
+      airflow webserver &
+      sleep 5 &&
+      airflow scheduler
+      "

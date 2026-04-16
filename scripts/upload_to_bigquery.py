@@ -18,6 +18,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
+default_config_path=os.path.join(PROJECT_ROOT, "config", "upload_config.yaml")
+CONFIG_PATH = default_config_path if os.path.exists(default_config_path) else "./config/upload_config.yaml"
+data_path = os.path.join(PROJECT_ROOT, "data")
+DATA_DIR = data_path if os.path.exists(data_path) else "./data"
+#keys_path = os.path.join(PROJECT_ROOT, "keys")
+#KEYS_DIR = keys_path if os.path.exists(keys_path) else "./keys"
 
 def load_config(config_path: str) -> dict:
     """Load configuration from YAML file."""
@@ -56,7 +63,8 @@ def upload_to_bigquery(file_path: str, table_name: str, project_id: str, dataset
         logger.info(f"Uploading to {table_id}...")
         
         client = bigquery.Client(project=project_id)
-        job = client.load_table_from_dataframe(df, table_id)
+        job_config=bigquery.LoadJobConfig(write_disposition="WRITE_TRUNCATE")
+        job = client.load_table_from_dataframe(df, table_id,job_config=job_config)
         job.result()
         
         logger.info(f"✓ Successfully uploaded {file_path} to {table_id}")
@@ -73,12 +81,12 @@ def main():
     )
     parser.add_argument(
         '--config',
-        default='config/upload_config.yaml',
+        default=CONFIG_PATH,
         help='Path to config file (default: config/upload_config.yaml)'
     )
     parser.add_argument(
         '--data-dir',
-        default=os.getenv('DATA_DIR', './data'),
+        default=DATA_DIR,
         help='Path to data directory (default: env var DATA_DIR or ./data)'
     )
     parser.add_argument(

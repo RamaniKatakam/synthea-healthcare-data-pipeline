@@ -1,0 +1,11 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: synthea-data-pipeline
+      dataset: dbt_synthea_data
+      keyfile: /opt/project/keys/key.json
+      threads: 4
+      location: US
