@@ -1,4 +1,4 @@
-# 🏥 Healthcare Data Engineering Pipeline (Synthea + BigQuery + dbt)
+# 🏥 Synthea Data Engineering Pipeline (Airflow + BigQuery + dbt)
 
 ## 📌 Project Overview
 
