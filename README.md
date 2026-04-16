@@ -1,4 +1,4 @@
-# 🏥 Synthea Data Engineering Pipeline (Airflow + BigQuery + dbt)
+# 🏥 Synthea Data Engineering Pipeline (Airflow(Dockerized) + BigQuery + dbt)
 
 ## 📌 Project Overview
 
