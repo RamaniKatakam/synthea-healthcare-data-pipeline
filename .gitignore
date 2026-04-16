@@ -3,3 +3,10 @@
 target/
 dbt_packages/
 logs/
+.venv/
+__pycache__/
+.env
+*.pyc
+key.json
+*.json
+data/
