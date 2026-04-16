@@ -35,7 +35,7 @@ This project models these use cases by transforming raw data into **analytics-re
 * **Transformation Layer:** dbt
 * **Ingestion:** Python
 * **Data Modeling:** Star Schema
-* **Orchestration (future-ready):** Airflow-compatible design
+* **Orchestration:** Airflow-compatible design
 
 ---
 
