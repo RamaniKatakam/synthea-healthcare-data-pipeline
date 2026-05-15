@@ -227,9 +227,11 @@ synthea-healthcare-data-pipeline/
 ## Design Decisions
 A few things worth explaining:
 
-Why incremental loading only on `fct_encounters`? The dimensions (`dim_patient`, `dim_condition`) are small and cheap to rebuild from scratch. The fact table is where row counts grow over time, so that's where incremental loading actually matters.
-Why `WRITE_TRUNCATE` in the ingestion script? For this project, the source data doesn't change — it's a one-time synthetic dataset. A full refresh on each run keeps things simple and idempotent. In a real pipeline with live EHR feeds, you'd want change detection here.
-Why not use Terraform? The BigQuery dataset is the only cloud resource, and it's simple enough to create manually or via `bq mk`. Terraform would be the right call if the infrastructure were more complex (e.g. GCS buckets, Dataproc clusters, networking).
+**Why incremental loading only on`fct_encounters`?** The dimensions (`dim_patient`, `dim_condition`) are small and cheap to rebuild from scratch. The fact table is where row counts grow over time, so that's where incremental loading actually matters.
+
+**Why `WRITE_TRUNCATE` in the ingestion script?** For this project, the source data doesn't change — it's a one-time synthetic dataset. A full refresh on each run keeps things simple and idempotent. In a real pipeline with live EHR feeds, you'd want change detection here.
+
+**Why not use Terraform?** The BigQuery dataset is the only cloud resource, and it's simple enough to create manually or via `bq mk`. Terraform would be the right call if the infrastructure were more complex (e.g. GCS buckets, Dataproc clusters, networking).
 
 ---
 
@@ -237,9 +239,9 @@ Why not use Terraform? The BigQuery dataset is the only cloud resource, and it's
 
 If I were extending this project:
 
-Add Slowly Changing Dimensions (Type 2) for patient records, so changes to demographics are tracked over time rather than overwritten
-Replace the flat CSV ingestion with a GCS landing zone — files would land in a bucket, trigger the DAG, and the ingestion script would read from there instead of local disk
-Add streaming ingestion for real-time encounter data using Pub/Sub or Kafka
+* Add **Slowly Changing Dimensions (Type 2)** for patient records, so changes to demographics are tracked over time rather than overwritten
+* Replace the flat CSV ingestion with a **GCS landing zone** — files would land in a bucket, trigger the DAG, and the ingestion script would read from there instead of local disk
+* Add **streaming ingestion** for real-time encounter data using Pub/Sub or Kafka
 Parameterize the dbt profiles and config more cleanly using environment variables so the project is easier to run in different environments without editing files
 
 ---
