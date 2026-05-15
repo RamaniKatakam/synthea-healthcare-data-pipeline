@@ -36,17 +36,17 @@ Everything is triggered and monitored through an Airflow DAG running locally in 
 
 ---
 
-## Tech Stack
+### Tech Stack
 
-###Layer                ###Tool
 
----
-Data source             Synthea (synthetic EHR data)
-Cloud data warehouse    Google BigQuery
-Ingestion               Python (google-cloud-bigquery)
-Transformation          dbt Core
-OrchestrationApache     Airflow (Dockerized)
-Visualization           Looker Studio
+| Layer | Tool |
+| :--- | :--- |
+| Data source | Synthea (synthetic EHR data) |
+| Cloud data warehouse | Google BigQuery |
+| Ingestion | Python (`google-cloud-bigquery`) |
+| Transformation | dbt Core |
+| Orchestration | Apache Airflow (Dockerized) |
+| Visualization | Looker Studio |
 
 ---
 
